@@ -1,6 +1,16 @@
-import { Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Heading,
+  List,
+  ListItem,
+  MenuItem,
+  MenuList,
+} from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
+import { Header } from "../components/Header";
+import { CryptoList } from "../components/CryptoList";
 
 const Home: NextPage = () => {
   return (
@@ -11,11 +21,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <Heading as="h1" size="2xl">
-          CoinVerse
-        </Heading>
-      </main>
+      <Box>
+        <Header />
+        <CryptoList />
+      </Box>
     </div>
   );
 };
