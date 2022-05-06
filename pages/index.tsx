@@ -1,12 +1,4 @@
-import {
-  Box,
-  Container,
-  Heading,
-  List,
-  ListItem,
-  MenuItem,
-  MenuList,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { Header } from "../components/Header";
@@ -21,7 +13,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Box>
+      <Box fontFamily="main" fontSize="0.875rem" fontWeight={500}>
         <Header />
         <CryptoList />
       </Box>
