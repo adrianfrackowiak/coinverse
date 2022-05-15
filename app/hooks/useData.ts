@@ -1,6 +1,6 @@
 import axios from "axios";
 import useSWR from "swr";
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+export const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 export function useCryptoListData(page: number, perPage: number) {
   const { data, error } = useSWR(

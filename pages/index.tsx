@@ -1,8 +1,14 @@
 import { Box } from "@chakra-ui/react";
-import type { NextPage } from "next";
+import type { GetStaticProps, NextApiRequest, NextPage } from "next";
 import Head from "next/head";
 import { Header } from "../components/Header";
 import { CryptoList } from "../components/CryptoList";
+import { getSession } from "next-auth/react";
+import { PrismaClient } from "@prisma/client";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { useEffect } from "react";
+import { isPortfolio, setUserData } from "../app/features/userSlice";
 
 const Home: NextPage = () => {
   return (

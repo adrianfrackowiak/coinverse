@@ -14,7 +14,7 @@ export const ChartBox = () => {
   const options = {
     title: `${stateCoinId} to USD`,
     curveType: "function",
-    series: [{ color: "#016FB9" }],
+    series: [{ color: "#4f35de" }],
     legend: "none",
   };
 

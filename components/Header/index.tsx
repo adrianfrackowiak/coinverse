@@ -15,11 +15,9 @@ import { useGlobalData } from "../../app/hooks/useData";
 export const Header = () => {
   const { data: session, status } = useSession();
   const globalData = useGlobalData();
+
   if (globalData.isError) console.error(globalData.isError);
   if (globalData.isLoading) return <p>Loading...</p>;
-
-  console.log(session);
-
   return (
     <Box>
       <Box display="flex" alignItems="center" justifyContent="center" h={10}>
@@ -33,13 +31,13 @@ export const Header = () => {
           <List display="flex" fontSize="0.75rem">
             <ListItem display="flex" mr={5} fontWeight={600}>
               Cryptos:
-              <Text ml={2} color="#016FB9">
+              <Text ml={2} color="#4f35de">
                 {globalData.data.data.active_cryptocurrencies}
               </Text>
             </ListItem>
             <ListItem display="flex" mr={5} fontWeight={600}>
               Market Cap:{" "}
-              <Text ml={2} color="#016FB9">
+              <Text ml={2} color="#4f35de">
                 $
                 {Intl.NumberFormat("en-US").format(
                   globalData.data.data.total_market_cap.usd
@@ -48,7 +46,7 @@ export const Header = () => {
             </ListItem>
             <ListItem display="flex" mr={5} fontWeight={600}>
               24h Vol:{" "}
-              <Text ml={2} color="#016FB9">
+              <Text ml={2} color="#4f35de">
                 $
                 {Intl.NumberFormat("en-US").format(
                   globalData.data.data.total_volume.usd
@@ -57,7 +55,7 @@ export const Header = () => {
             </ListItem>
             <ListItem display="flex" mr={5} fontWeight={600}>
               Dominance:{" "}
-              <Text ml={2} color="#016FB9">
+              <Text ml={2} color="#4f35de">
                 BTC: {globalData.data.data.market_cap_percentage.btc.toFixed(1)}
                 % ETH:{" "}
                 {globalData.data.data.market_cap_percentage.eth.toFixed(1)}%
@@ -92,7 +90,9 @@ export const Header = () => {
           </NextLink>
           <List ml={5} display="flex" fontWeight={700}>
             <ListItem ml={5}>Cryptocurrencies</ListItem>
-            <ListItem ml={5}>Portfolio</ListItem>
+            <ListItem ml={5}>
+              <NextLink href="/portfolio">Portfolio</NextLink>
+            </ListItem>
           </List>
           <Spacer />
           {session && status === "authenticated" ? (
