@@ -53,3 +53,13 @@ export function useMarketChart(coinId: string) {
     isError: error,
   };
 }
+
+export function usePrismaData() {
+  const { data, error } = useSWR("/api/portfolio/get", fetcher);
+
+  return {
+    data: data,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}

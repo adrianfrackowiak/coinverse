@@ -5,13 +5,15 @@ interface Props {
   text: string;
   event: MouseEventHandler<HTMLDivElement> &
     MouseEventHandler<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
-export const PrimaryButton: React.FC<Props> = ({ text, event }) => {
+export const PrimaryButton: React.FC<Props> = ({ text, event, disabled }) => {
   return (
     <Box
       as="button"
       onClick={event}
+      disabled={disabled}
       py={3}
       px={6}
       borderRadius="0.75rem"

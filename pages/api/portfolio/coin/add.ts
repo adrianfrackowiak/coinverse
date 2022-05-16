@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
-import Router from "next/router";
 import { prisma } from "../../../../app/prisma";
 
 export default async function handle(
@@ -30,7 +29,6 @@ export default async function handle(
       buyPrice: pricePerCoin,
     },
   });
-  res.json(result);
 
-  Router.push("/");
+  res.json(result);
 }

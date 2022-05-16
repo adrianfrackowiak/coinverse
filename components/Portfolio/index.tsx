@@ -1,5 +1,4 @@
 import { Container, Stack } from "@chakra-ui/react";
-
 import { CurrentInfo } from "./CurrentInfo";
 import { PortfolioList } from "./PortfolioList";
 

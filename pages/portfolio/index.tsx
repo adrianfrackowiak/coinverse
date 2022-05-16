@@ -1,26 +1,12 @@
-import {
-  Box,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-  Text,
-  Input,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { GetServerSideProps } from "next";
 import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
-import useSWR from "swr";
-import { fetcher, useCryptoListData } from "../../app/hooks/useData";
 import { RootState } from "../../app/store";
 import { Header } from "../../components/Header";
 import { prisma } from "../../app/prisma";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   isPortfolio,
   setCoins,
@@ -31,32 +17,30 @@ import { PortfolioComponent } from "../../components/Portfolio";
 import { ICoin } from "../../app/interfaces/ICoins";
 import { IUser } from "../../app/interfaces/IUser";
 import { IPortfolio } from "../../app/interfaces/IPortfolio";
-import { CreatePortfolio } from "../../components/CreatePortfolio";
+import { CreatePortfolio } from "../../components/Portfolio/CreatePortfolio";
+import { usePrismaData } from "../../app/hooks/useData";
 
-interface Props {
-  user?: IUser;
-  portfolio?: IPortfolio[];
-  coins?: ICoin[];
-}
-
-const Portfolio: React.FC<Props> = ({ user, portfolio, coins }) => {
+const Portfolio: React.FC = () => {
   const isPortfolioState = useSelector(
     (state: RootState) => state.portfolio.isPortfolio
   );
   const dispatch = useDispatch();
+  const prismaData = usePrismaData();
 
   useEffect(() => {
-    if (user) dispatch(setUserData(user));
+    if (prismaData.data?.user) dispatch(setUserData(prismaData.data.user));
 
-    if (portfolio && portfolio.length > 0) {
+    if (prismaData.data?.portfolio && prismaData.data?.portfolio.length > 0) {
       dispatch(isPortfolio(true));
-      dispatch(setPortfolioName(portfolio[0].name));
+      dispatch(setPortfolioName(prismaData.data.portfolio[0].name));
 
-      if (coins && coins.length > 0) {
-        dispatch(setCoins(coins));
+      if (prismaData.data?.coins && prismaData.data?.coins.length > 0) {
+        dispatch(setCoins(prismaData.data.coins));
       }
     }
-  }, []);
+  }, [prismaData]);
+
+  console.log(prismaData.data);
 
   return (
     <div>
@@ -72,37 +56,6 @@ const Portfolio: React.FC<Props> = ({ user, portfolio, coins }) => {
       </Box>
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const session = await getSession({ req });
-
-  const user = await prisma.user.findMany({
-    where: {
-      email: session?.user?.email,
-    },
-  });
-
-  const portfolio =
-    user &&
-    (await prisma.portfolio.findMany({
-      where: {
-        userId: user[0].id,
-      },
-    }));
-
-  const coins =
-    portfolio &&
-    portfolio.length > 0 &&
-    (await prisma.coin.findMany({
-      where: {
-        portfolioId: portfolio[0].id,
-      },
-    }));
-
-  return {
-    props: { user: user ? user[0] : "", portfolio: portfolio, coins: coins },
-  };
 };
 
 export default Portfolio;

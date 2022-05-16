@@ -1,6 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../app/store";
+import { ModalButton } from "../AddNewCoinModal";
 
 export const CurrentInfo = () => {
   const portfolioData = useSelector((state: RootState) => state.portfolio);
@@ -12,12 +13,13 @@ export const CurrentInfo = () => {
           {portfolioData.portfolio.portfolioName} - Portfolio
         </Text>
       </Box>
-      <Box>
+      <Box mb={6}>
         Current Balance:
         <Text fontSize="1.5rem" fontWeight={600}>
           ${portfolioData.portfolio.balance}
         </Text>
       </Box>
+      <ModalButton />
     </Box>
   );
 };
