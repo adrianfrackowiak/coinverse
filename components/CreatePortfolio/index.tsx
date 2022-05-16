@@ -71,7 +71,7 @@ export const CreatePortfolio = () => {
               type="button"
               disabled={!newPortfolioName}
               mr={3}
-              onClick={(e) => {
+              onClick={(e: React.SyntheticEvent) => {
                 createNewPortfolio(e);
                 onClose();
               }}

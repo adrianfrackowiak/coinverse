@@ -74,6 +74,8 @@ export const PortfolioList = () => {
     return { filteredCoin: [], holdings: 0, profitOrLoss: 0 };
   };
 
+  console.log(portfolioData);
+
   useEffect(() => {
     setSelectedCoin("");
     setQuantity(0);
@@ -97,7 +99,7 @@ export const PortfolioList = () => {
       });
       dispatch(calculatePortfolioBalance(count));
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   if (isError && coinData.isLoading) console.error(isError);
   if (isLoading && coinData.isLoading && !portfolioData && !data)
@@ -260,7 +262,7 @@ export const PortfolioList = () => {
                 px="20px"
                 color="white"
                 fontWeight={700}
-                onClick={(e) => {
+                onClick={(e: React.SyntheticEvent) => {
                   onClose();
                   addCoinToPortfolio(e);
                 }}
