@@ -1,11 +1,8 @@
 import { Box } from "@chakra-ui/react";
-import { GetServerSideProps } from "next";
-import { getSession } from "next-auth/react";
 import Head from "next/head";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../app/store";
 import { Header } from "../../components/Header";
-import { prisma } from "../../app/prisma";
 import { useEffect } from "react";
 import {
   isPortfolio,
@@ -18,29 +15,37 @@ import { ICoin } from "../../app/interfaces/ICoins";
 import { IUser } from "../../app/interfaces/IUser";
 import { IPortfolio } from "../../app/interfaces/IPortfolio";
 import { CreatePortfolio } from "../../components/Portfolio/CreatePortfolio";
-import { usePrismaData } from "../../app/hooks/useData";
+import { fetcher, usePrismaData } from "../../app/hooks/useData";
+import useSWR from "swr";
+import { useSession } from "next-auth/react";
 
-const Portfolio: React.FC = () => {
+interface Props {
+  user?: IUser;
+  portfolio?: IPortfolio[];
+  coins?: ICoin[];
+}
+
+const Portfolio: React.FC<Props> = ({ user, portfolio, coins }) => {
   const isPortfolioState = useSelector(
     (state: RootState) => state.portfolio.isPortfolio
   );
   const dispatch = useDispatch();
-  const prismaData = usePrismaData();
+
+  const { data, error } = useSWR("/api/portfolio/get", fetcher);
+  console.log(data);
 
   useEffect(() => {
-    if (prismaData.data?.user) dispatch(setUserData(prismaData.data.user));
+    if (user) dispatch(setUserData(user));
 
-    if (prismaData.data?.portfolio && prismaData.data?.portfolio.length > 0) {
+    if (portfolio && portfolio.length > 0) {
       dispatch(isPortfolio(true));
-      dispatch(setPortfolioName(prismaData.data.portfolio[0].name));
+      dispatch(setPortfolioName(portfolio[0].name));
 
-      if (prismaData.data?.coins && prismaData.data?.coins.length > 0) {
-        dispatch(setCoins(prismaData.data.coins));
+      if (coins && coins.length > 0) {
+        dispatch(setCoins(coins));
       }
     }
-  }, [prismaData]);
-
-  console.log(prismaData.data);
+  }, []);
 
   return (
     <div>
